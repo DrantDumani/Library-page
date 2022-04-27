@@ -30,12 +30,12 @@
                         <input type="number" id="page-number" placeholder="100" min="1" required>
                     </div>
                     <div class="form-grid-item">
-                        <span>Finished?</span>
+                        <span>Have you read this?</span>
                         <div class="radio-container">
                             <div class="radio-btn">
-                                <label for="yes-state">Yes</label>
+                                <label for="yes-state">Read</label>
                                 <input type="radio" name="read-state" id="yes-state" value="yes">
-                                <label for="no-state">No</label>
+                                <label for="no-state">Not Read</label>
                                 <input type="radio" name="read-state" id="no-state" value="no" checked>
                             </div>
                         </div>
@@ -57,45 +57,10 @@
             </div>
         </header>
         <main class="book-container">
-            <h2 class="empty-library-text">You currently have no books in your library! Add some and start reading!</h2>
+            <h2 class="empty-library-text hide">You currently have no books in your library! Add some and start reading!</h2>
             <div class="book-grid-container">
                 <div class="book-card">
-                    <span><span class="book-title">"Animorphs: The Return"</span></span>
-                    <span>Author: <span class="author-name">K. A. Applegate</span></span>
-                    <span>Pages: <span class="page-number">212</span></span>
-                    <button class="read-btn book-card-btn">Read Status: Complete</button>
-                    <button class="delete-book-btn book-card-btn">Delete</button>
-                </div>
-                <div class="book-card">
-                    <span><span class="book-title">"Animorphs: The Return"</span></span>
-                    <span>Author: <span class="author-name">K. A. Applegate</span></span>
-                    <span>Pages: <span class="page-number">212</span></span>
-                    <button class="read-btn book-card-btn">Read Status: Complete</button>
-                    <button class="delete-book-btn book-card-btn">Delete</button>
-                </div>
-                <div class="book-card">
-                    <span><span class="book-title">"Animorphs: The Return"</span></span>
-                    <span>Author: <span class="author-name">K. A. Applegate</span></span>
-                    <span>Pages: <span class="page-number">212</span></span>
-                    <button class="read-btn book-card-btn">Read Status: Complete</button>
-                    <button class="delete-book-btn book-card-btn">Delete</button>
-                </div>
-                <div class="book-card">
-                    <span><span class="book-title">"Animorphs: The Return"</span></span>
-                    <span>Author: <span class="author-name">K. A. Applegate</span></span>
-                    <span>Pages: <span class="page-number">212</span></span>
-                    <button class="read-btn book-card-btn">Read Status: Complete</button>
-                    <button class="delete-book-btn book-card-btn">Delete</button>
-                </div>
-                <div class="book-card">
-                    <span><span class="book-title">"Animorphs: The Return"</span></span>
-                    <span>Author: <span class="author-name">K. A. Applegate</span></span>
-                    <span>Pages: <span class="page-number">212</span></span>
-                    <button class="read-btn book-card-btn">Read Status: Complete</button>
-                    <button class="delete-book-btn book-card-btn">Delete</button>
-                </div>
-                <div class="book-card">
-                    <span><span class="book-title">"Animorphs: The Return"</span></span>
+                    <span class="book-title">"Animorphs: The Return"</span>
                     <span>Author: <span class="author-name">K. A. Applegate</span></span>
                     <span>Pages: <span class="page-number">212</span></span>
                     <button class="read-btn book-card-btn">Read Status: Complete</button>
@@ -112,6 +77,7 @@
                 </a>
             </p>
         </footer>
+        <script src="script.js"></script>
     </div>
 </body>
 

@@ -9,10 +9,12 @@ body {
     background-position: center;
     background-size: cover;
     color: #fff;
+    /* overflow: hidden; */
+    /* Apply this to body upon opening modal */
 }
 
 .page-content {
-    padding: 2.5vh 3vw;
+    padding: 2.5vh 8vw;
 }
 
 .header {
@@ -28,6 +30,7 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 24px;
+    padding: 20px 0;
 }
 
 .book-card {
@@ -48,7 +51,14 @@ body {
     border-radius: 8px;
     color: inherit;
     background-color: inherit;
-    border: 2px solid var(--border-color);
+}
+
+#library-btn {
+    border: 1px solid #fff;
+}
+
+.book-card-btn {
+    border: 2px solid var(--border-color)
 }
 
 .book-title {
@@ -112,11 +122,13 @@ form input {
 
 .radio-btn {
     display: grid;
-    grid-template-columns: repeat(2, min-content);
+    grid-template-columns: repeat(2, max-content);
     padding-left: 8px;
+    gap: 6px 0;
 }
 
-.footer {
+.footer,
+.book-container {
     text-align: center;
 }
 
