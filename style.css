@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300&display=swap');
+body {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Merriweather Sans', sans-serif;
+    background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url("assets/patchy-bg.png") no-repeat;
+    background-position: center;
+    background-size: cover;
+    color: #fff;
+}
+
+.page-content {
+    padding: 2.5vh 3vw;
+}
+
+.header {
+    text-align: center;
+}
+
+.book-count {
+    display: flex;
+    justify-content: space-around;
+}
+
+.book-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+.book-card {
+    --border-color: #b1b0b1;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    border: 2.5px solid var(--border-color);
+    border-radius: 8px;
+    background-color: #2b1934;
+    gap: 16px;
+    padding: 20px;
+}
+
+#library-btn,
+.book-card-btn {
+    padding: 5px;
+    border-radius: 8px;
+    color: inherit;
+    background-color: inherit;
+    border: 2px solid var(--border-color);
+}
+
+.book-title {
+    font-size: 20px;
+}
+
+.modal-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.55);
+}
+
+.hide {
+    display: none;
+}
+
+.modal-content {
+    background-color: #000;
+    border: 2px solid #fff;
+    border-radius: 4px;
+}
+
+#close-modal {
+    font-weight: bold;
+    font-size: 28px;
+    border: none;
+    color: inherit;
+    background-color: inherit;
+    cursor: pointer;
+}
+
+.book-form>fieldset {
+    display: grid;
+    gap: 24px;
+    font-size: 20px;
+    border: none;
+    padding: 25px;
+}
+
+.form-legend {
+    font-size: 32px;
+}
+
+form input {
+    background-color: inherit;
+    color: inherit;
+    border-radius: 4px;
+    font-size: 18px;
+    border: 1.5px solid #fff;
+}
+
+.form-grid-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.radio-btn {
+    display: grid;
+    grid-template-columns: repeat(2, min-content);
+    padding-left: 8px;
+}
+
+.footer {
+    text-align: center;
+}
+
+.footer-link {
+    color: #fff;
+}
+
+.footer-link>svg {
+    vertical-align: bottom;
+}
