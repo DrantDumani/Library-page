@@ -19,24 +19,24 @@
                     <legend class="form-legend">Add New Book</legend>
                     <div class="form-grid-item">
                         <label for="title-input">Title</label>
-                        <input type="text" id="title-input" placeholder="Title" required>
+                        <input type="text" id="title-input" placeholder="Title" name="title" required>
                     </div>
                     <div class="form-grid-item">
                         <label for="author-input">Author</label>
-                        <input type="text" id="author-input" placeholder="Author" required>
+                        <input type="text" id="author-input" placeholder="Author" name="author" required>
                     </div>
                     <div class="form-grid-item">
                         <label for="page-number">Pages</label>
-                        <input type="number" id="page-number" placeholder="100" min="1" required>
+                        <input type="number" id="page-number" placeholder="100" min="1" name="pages" required>
                     </div>
                     <div class="form-grid-item">
                         <span>Have you read this?</span>
                         <div class="radio-container">
                             <div class="radio-btn">
                                 <label for="yes-state">Read</label>
-                                <input type="radio" name="read-state" id="yes-state" value="yes">
+                                <input type="radio" name="read-state" id="yes-state" value="Yes">
                                 <label for="no-state">Not Read</label>
-                                <input type="radio" name="read-state" id="no-state" value="no" checked>
+                                <input type="radio" name="read-state" id="no-state" value="No" checked>
                             </div>
                         </div>
                     </div>
