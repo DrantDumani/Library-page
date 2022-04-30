@@ -9,16 +9,22 @@ body {
     background-position: center;
     background-size: cover;
     color: #fff;
-    /* overflow: hidden; */
-    /* Apply this to body upon opening modal */
+}
+
+.disable-scroll {
+    overflow: hidden;
 }
 
 .page-content {
-    padding: 2.5vh 8vw;
+    padding: 0 8vw;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .header {
     text-align: center;
+    padding-top: 2.5vh;
 }
 
 .book-count {
@@ -51,14 +57,17 @@ body {
     border-radius: 8px;
     color: inherit;
     background-color: inherit;
+    font-family: inherit;
 }
 
 #library-btn {
     border: 1px solid #fff;
+    font-size: 22px;
 }
 
 .book-card-btn {
-    border: 2px solid var(--border-color)
+    border: 2px solid var(--border-color);
+    font-size: inherit;
 }
 
 .book-title {
@@ -111,6 +120,7 @@ form input {
     color: inherit;
     border-radius: 4px;
     font-size: 18px;
+    font-family: inherit;
     border: 1.5px solid #fff;
 }
 
@@ -127,9 +137,30 @@ form input {
     gap: 6px 0;
 }
 
+svg,
+button,
+input[type="submit"] {
+    transition: 0.4s;
+}
+
+#library-btn:hover,
+input[type="submit"]:hover,
+button:hover {
+    box-shadow: rgba(255, 255, 255, 0.16) 0px 1px 4px, rgb(255, 255, 255) 0px 0px 0px 3px;
+}
+
+svg:hover {
+    transform: rotate(360deg);
+}
+
 .footer,
 .book-container {
     text-align: center;
+}
+
+.footer {
+    margin-top: auto;
+    padding-bottom: 2.5vh;
 }
 
 .footer-link {
