@@ -170,3 +170,9 @@ svg:hover {
 .footer-link>svg {
     vertical-align: bottom;
 }
+
+@media (max-width: 500px) {
+    body {
+        background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url("assets/patchy-bg-mobile.png") no-repeat;
+    }
+}
