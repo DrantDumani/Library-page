@@ -1,15 +1,36 @@
 const library = []
-let body = document.querySelector("body")
 let bookContainer = document.querySelector(".book-grid-container")
-let librarybtn = document.querySelector("#library-btn")
 let modal = document.querySelector(".modal-box")
-let closeModalBtn = document.querySelector("#close-modal")
-let bookForm = document.querySelector("form")
-let emptyLibraryNotif = document.querySelector(".empty-library-text")
-let totalBooks = document.querySelector("#bookNum")
-let totalReadBooks = document.querySelector("#readNum")
 
-function displayEmptyNotif() {
+let librarybtn = document.querySelector("#library-btn")
+librarybtn.addEventListener("click", toggleModal)
+
+let closeModalBtn = document.querySelector("#close-modal")
+closeModalBtn.addEventListener("click", toggleModal)
+
+function toggleModal() {
+    let body = document.querySelector("body")
+    modal.classList.toggle("hide")
+    body.classList.toggle("disable-scroll")
+    bookForm.reset()
+}
+
+let bookForm = document.querySelector("form")
+bookForm.addEventListener("submit", (e) => {
+    submitForm(e)
+})
+
+function submitForm(e) {
+    e.preventDefault()
+    let data = new FormData(e.target)
+    let [title, author, pages, read] = Object.values(Object.fromEntries(data))
+    read = read === "Read" ? true : false
+    addToLibrary(title, author, pages, read)
+    toggleModal()
+}
+
+function toggleEmptyNotif() {
+    let emptyLibraryNotif = document.querySelector(".empty-library-text")
     if (library.length === 0 && emptyLibraryNotif.className.includes("hide")) {
         emptyLibraryNotif.classList.remove("hide")
     } else if (library.length > 0 && !emptyLibraryNotif.className.includes("hide")) {
@@ -17,27 +38,10 @@ function displayEmptyNotif() {
     }
 }
 
-function toggleModal() {
-    modal.classList.toggle("hide");
-    body.classList.toggle("disable-scroll")
-    bookForm.reset()
-}
-
-librarybtn.addEventListener("click", toggleModal)
-closeModalBtn.addEventListener("click", toggleModal)
 window.addEventListener("click", (e) => {
     if (e.target === modal) {
         toggleModal()
     }
-})
-
-bookForm.addEventListener("submit", function(e) {
-    e.preventDefault()
-    let data = new FormData(e.target)
-    let [title, author, pages, read] = Object.values(Object.fromEntries(data))
-    read = read === "Read" ? true : false
-    addToLibrary(title, author, pages, read)
-    toggleModal()
 })
 
 function appendBook(book) {
@@ -79,6 +83,8 @@ function appendBook(book) {
 }
 
 function displayBooks() {
+    let totalBooks = document.querySelector("#bookNum")
+    let totalReadBooks = document.querySelector("#readNum")
     let bookCount = 0
     let booksRead = 0
     bookContainer.replaceChildren()
@@ -107,7 +113,7 @@ function addToLibrary(title, author, pages, read) {
     let book = Object.assign(Object.create(bookMethods), { title, author, pages, read, bookIndex })
     library.push(book)
     displayBooks()
-    displayEmptyNotif()
+    toggleEmptyNotif()
 }
 
 function removeFromLibrary(index) {
@@ -116,7 +122,7 @@ function removeFromLibrary(index) {
     }
     library.splice(index, 1)
     displayBooks()
-    displayEmptyNotif()
+    toggleEmptyNotif()
 }
 
 function capitalizeFirstLetter(string) {
@@ -125,4 +131,4 @@ function capitalizeFirstLetter(string) {
     return capStringArr.join(" ")
 }
 
-displayEmptyNotif()
+toggleEmptyNotif()
