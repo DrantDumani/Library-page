@@ -9,6 +9,7 @@ body {
     background-position: center;
     background-size: cover;
     color: #fff;
+    position: relative;
 }
 
 .disable-scroll {
@@ -82,7 +83,7 @@ body {
     align-items: center;
     width: 100%;
     min-height: 100vh;
-    position: absolute;
+    position: fixed;
     background-color: rgba(0, 0, 0, 0.55);
 }
 
@@ -114,7 +115,7 @@ body {
 }
 
 .form-legend {
-    font-size: 32px;
+    font-size: 28px;
 }
 
 form input {
