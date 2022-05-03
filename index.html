@@ -11,9 +11,9 @@
 </head>
 
 <body>
-    <div class="modal-box hide">
+    <div class="modal-box hide" id="form-modal">
         <div class="modal-content">
-            <button id="close-modal">X</button>
+            <button class="close-modal">X</button>
             <form action="#" method="post" class="book-form">
                 <fieldset>
                     <legend class="form-legend">Add New Book</legend>
@@ -43,6 +43,16 @@
                     <input type="submit" value="Add Book">
                 </fieldset>
             </form>
+        </div>
+    </div>
+    <div class="modal-box hide" id="confirm-del-modal">
+        <div class="modal-content">
+            <button class="close-modal">X</button>
+            <div class="del-btn-ui">
+                <p class="confirm-text">Are you sure you want to delete this book?</p>
+                <button class="confirm-btn" value="true">Yes</button>
+                <button class="confirm-btn" value="false">No</button>
+            </div>
         </div>
     </div>
     <div class="page-content">

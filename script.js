@@ -1,14 +1,36 @@
 const library = []
 let bookContainer = document.querySelector(".book-grid-container")
-let modal = document.querySelector(".modal-box")
+let formModal = document.querySelector("#form-modal")
 
 let librarybtn = document.querySelector("#library-btn")
-librarybtn.addEventListener("click", toggleModal)
+librarybtn.addEventListener("click", () => {
+    toggleModal(formModal)
+})
 
-let closeModalBtn = document.querySelector("#close-modal")
-closeModalBtn.addEventListener("click", toggleModal)
+let closeModalBtns = document.querySelectorAll(".close-modal")
+for (let btn of closeModalBtns) {
+    btn.addEventListener("click", (e) => {
+        let currModal = e.target.parentElement.parentElement
+        toggleModal(currModal)
+    })
+}
 
-function toggleModal() {
+let confirmDelBtns = document.querySelectorAll(".confirm-btn")
+for (let btn of confirmDelBtns) {
+    btn.addEventListener("click", (e) => {
+        confirmDelete(e)
+    })
+}
+
+function confirmDelete(event) {
+    let parentModal = document.querySelector("#confirm-del-modal")
+    if (event.target.value === "true") {
+        removeFromLibrary(parentModal.dataset.index)
+    }
+    toggleModal(parentModal)
+}
+
+function toggleModal(modal) {
     let body = document.querySelector("body")
     modal.classList.toggle("hide")
     body.classList.toggle("disable-scroll")
@@ -26,7 +48,7 @@ function submitForm(e) {
     let [title, author, pages, read] = Object.values(Object.fromEntries(data))
     read = read === "Read" ? true : false
     addToLibrary(title, author, pages, read)
-    toggleModal()
+    toggleModal(formModal)
 }
 
 function toggleEmptyNotif() {
@@ -39,8 +61,8 @@ function toggleEmptyNotif() {
 }
 
 window.addEventListener("click", (e) => {
-    if (e.target === modal) {
-        toggleModal()
+    if (e.target.className.includes("modal-box")) {
+        toggleModal(e.target)
     }
 })
 
@@ -74,7 +96,8 @@ function appendBook(book) {
     deleteBtn.classList.add("delete-book-btn", "book-card-btn")
     deleteBtn.appendChild(document.createTextNode("Delete"))
     deleteBtn.addEventListener("click", () => {
-        removeFromLibrary(card.dataset.index)
+        let delModal = document.querySelector("#confirm-del-modal")
+        toggleModal(delModal)
     })
 
     card.append(bookTitle, authorName, pageCount, readStatus, deleteBtn)
