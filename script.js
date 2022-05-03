@@ -1,4 +1,5 @@
 const library = []
+let currentBookIndex = null
 let bookContainer = document.querySelector(".book-grid-container")
 let formModal = document.querySelector("#form-modal")
 
@@ -25,7 +26,7 @@ for (let btn of confirmDelBtns) {
 function confirmDelete(event) {
     let parentModal = document.querySelector("#confirm-del-modal")
     if (event.target.value === "true") {
-        removeFromLibrary(parentModal.dataset.index)
+        removeFromLibrary(currentBookIndex)
     }
     toggleModal(parentModal)
 }
@@ -47,7 +48,7 @@ function submitForm(e) {
     let data = new FormData(e.target)
     let [title, author, pages, read] = Object.values(Object.fromEntries(data))
     read = read === "Read" ? true : false
-    addToLibrary(title, author, pages, read)
+    editOrAddToLibrary(title, author, pages, read)
     toggleModal(formModal)
 }
 
@@ -92,15 +93,23 @@ function appendBook(book) {
         readStatus.textContent = book.read ? "Read Status: Read" : "Read Status: Not Read"
     })
 
+    let editBtn = document.createElement("button")
+    editBtn.classList.add("edit-btn", "book-card-btn")
+    editBtn.appendChild(document.createTextNode("Edit"))
+    editBtn.addEventListener("click", () => {
+        editBook(book)
+    })
+
     let deleteBtn = document.createElement("button")
     deleteBtn.classList.add("delete-book-btn", "book-card-btn")
     deleteBtn.appendChild(document.createTextNode("Delete"))
     deleteBtn.addEventListener("click", () => {
         let delModal = document.querySelector("#confirm-del-modal")
+        currentBookIndex = bookIndex
         toggleModal(delModal)
     })
 
-    card.append(bookTitle, authorName, pageCount, readStatus, deleteBtn)
+    card.append(bookTitle, authorName, pageCount, readStatus, editBtn, deleteBtn)
 
     bookContainer.appendChild(card)
 }
@@ -129,12 +138,34 @@ const bookMethods = {
     }
 }
 
-function addToLibrary(title, author, pages, read) {
-    let bookIndex = library.length
-    title = capitalizeFirstLetter(title)
-    author = capitalizeFirstLetter(author)
+function editBook(book) {
+    toggleModal(formModal)
+    let { title, author, pages, read, bookIndex } = book
+    let titleInput = document.querySelector("#title-input")
+    titleInput.value = title
+
+    let authorInput = document.querySelector("#author-input")
+    authorInput.value = author
+
+    let pageNum = document.querySelector("#page-number")
+    pageNum.value = pages
+
+    if (read) {
+        document.querySelector("#yes-state").checked = true
+        document.querySelector("#no-state").checked = false
+    } else {
+        document.querySelector("#yes-state").checked = false
+        document.querySelector("#no-state").checked = true
+    }
+    bookForm.dataset.index = bookIndex
+}
+
+function editOrAddToLibrary(title, author, pages, read) {
+    let bookIndex = bookForm.dataset.index || library.length
     let book = Object.assign(Object.create(bookMethods), { title, author, pages, read, bookIndex })
-    library.push(book)
+    library[bookIndex] = book
+    bookForm.dataset.index = ""
+
     displayBooks()
     toggleEmptyNotif()
 }
@@ -144,6 +175,7 @@ function removeFromLibrary(index) {
         library[i].bookIndex -= 1
     }
     library.splice(index, 1)
+    currentBookIndex = null
     displayBooks()
     toggleEmptyNotif()
 }
