@@ -186,4 +186,33 @@ function capitalizeFirstLetter(string) {
     return capStringArr.join(" ")
 }
 
+function displayValidationText(e){
+    let validState = e.target.validity
+    if (!validState.valid){
+        const parent = e.target.parentElement
+        const validationText = parent.querySelector(".validation-text")
+        validationText.classList.remove("hide")
+    }
+}
+
+function hideValidationText(e){
+    let validState = e.target.validity
+    if (validState.valid){
+        const parent = e.target.parentElement
+        const validationText = parent.querySelector(".validation-text")
+        validationText.classList.add("hide")
+    }
+}
+
+const inputs = document.querySelectorAll(".form-grid-item > input")
+for (let el of inputs){
+    el.addEventListener("focusout", (e) => {
+        displayValidationText(e)
+    })
+
+    el.addEventListener("input", (e) => {
+        hideValidationText(e)
+    })
+}
+
 toggleEmptyNotif()

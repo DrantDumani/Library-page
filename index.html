@@ -20,14 +20,17 @@
                     <div class="form-grid-item">
                         <label for="title-input">Title</label>
                         <input type="text" id="title-input" placeholder="Title" name="title" required>
+                        <span class="validation-text hide">*Please fill in this field</span>
                     </div>
                     <div class="form-grid-item">
                         <label for="author-input">Author</label>
                         <input type="text" id="author-input" placeholder="Author" name="author" required>
+                        <span class="validation-text hide">*Please fill in this field</span>
                     </div>
                     <div class="form-grid-item">
                         <label for="page-number">Pages</label>
-                        <input type="number" id="page-number" placeholder="100" min="1" max="1000000" name="pages" required>
+                        <input type="number" id="page-number" placeholder="100" min="1" max="9999999" name="pages" required>
+                        <span class="validation-text hide">*Please enter a value less than 9999999</span>
                     </div>
                     <div class="form-grid-item">
                         <span>Have you read this?</span>
