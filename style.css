@@ -95,6 +95,9 @@ body {
     background-color: #000;
     border: 2px solid #fff;
     border-radius: 4px;
+    max-height: 90vh;
+    max-width: 90vw;
+    overflow-y: auto;
 }
 
 .close-modal {
@@ -134,11 +137,11 @@ form input {
 }
 
 .form-grid-item>input:focus:invalid {
-    border-color: #ff1515;
+    outline: #ff1515 solid 1px;
 }
 
 .form-grid-item>input:focus:valid {
-    border-color: #5eff00;
+    outline: #5eff00 solid 1px;
 }
 
 .radio-btn {
