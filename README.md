@@ -6,3 +6,6 @@ Library Page app for Odin Project. This project has been developed following the
 - CSS
 - JavaScript
 
+## Known Bugs
+- If you try to edit a book, close the form without editing anything, and then try to add a NEW Book normally, no book will be added. Instead, the book you originally tried to edit will be edited instead.
+- Validation Error text will sometimes appear after you've already submitted the form. When you re-open it, it will appear to warn users even though they haven't entered any information yet.
