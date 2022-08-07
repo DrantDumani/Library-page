@@ -36,6 +36,7 @@ function toggleModal(modal) {
     modal.classList.toggle("hide")
     body.classList.toggle("disable-scroll")
     bookForm.reset()
+    hideValidationOnFormClose()
 }
 
 let bookForm = document.querySelector("form")
@@ -202,6 +203,13 @@ function hideValidationText(e){
         const validationText = parent.querySelector(".validation-text")
         validationText.classList.add("hide")
     }
+}
+
+function hideValidationOnFormClose(){
+    const validationSpans = document.querySelectorAll('.validation-text');
+    validationSpans.forEach((text) => {
+        text.classList.add('hide');
+    })
 }
 
 const inputs = document.querySelectorAll(".form-grid-item > input")
