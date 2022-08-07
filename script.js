@@ -36,6 +36,7 @@ function toggleModal(modal) {
     modal.classList.toggle("hide")
     body.classList.toggle("disable-scroll")
     bookForm.reset()
+    bookForm.dataset.index = ""
     hideValidationOnFormClose()
 }
 
