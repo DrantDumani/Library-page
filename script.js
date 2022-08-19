@@ -1,7 +1,34 @@
 const library = []
+const localStorage = window.localStorage
 let currentBookIndex = null
 let bookContainer = document.querySelector(".book-grid-container")
 let formModal = document.querySelector("#form-modal")
+
+function updateStorage(keyStr, value){
+    const strVal = JSON.stringify(value)
+    localStorage.setItem(keyStr, strVal)
+}
+
+function getStorage(keyStr){
+    const value = localStorage.getItem(keyStr)
+    return JSON.parse(value)
+}
+
+function populateLibrary(arr){
+    arr.forEach(book => {
+        let bookWithMethod = Object.assign(Object.create(bookMethods), book)
+        library.push(bookWithMethod);
+    })
+}
+
+window.addEventListener('load', () => {
+    const storedBooks = getStorage("library");
+    if (storedBooks) {
+        populateLibrary(storedBooks);
+        displayBooks()
+        toggleEmptyNotif()
+    }
+})
 
 let librarybtn = document.querySelector("#library-btn")
 librarybtn.addEventListener("click", () => {
@@ -27,6 +54,7 @@ function confirmDelete(event) {
     let parentModal = document.querySelector("#confirm-del-modal")
     if (event.target.value === "true") {
         removeFromLibrary(currentBookIndex)
+        updateStorage("library", library)
     }
     toggleModal(parentModal)
 }
@@ -51,6 +79,7 @@ function submitForm(e) {
     let [title, author, pages, read] = Object.values(Object.fromEntries(data))
     read = read === "Read" ? true : false
     editOrAddToLibrary(title, author, pages, read)
+    updateStorage("library", library)
     toggleModal(formModal)
 }
 
@@ -93,6 +122,7 @@ function appendBook(book) {
     readStatus.addEventListener("click", () => {
         book.toggleRead()
         readStatus.textContent = book.read ? "Read Status: Read" : "Read Status: Not Read"
+        updateStorage("library", library)
     })
 
     let editBtn = document.createElement("button")
@@ -160,6 +190,7 @@ function editBook(book) {
         document.querySelector("#no-state").checked = true
     }
     bookForm.dataset.index = bookIndex
+    updateStorage("library", library)
 }
 
 function editOrAddToLibrary(title, author, pages, read) {
@@ -180,6 +211,7 @@ function removeFromLibrary(index) {
     currentBookIndex = null
     displayBooks()
     toggleEmptyNotif()
+    updateStorage("library", library)
 }
 
 function capitalizeFirstLetter(string) {
