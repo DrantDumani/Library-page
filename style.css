@@ -1,208 +1,216 @@
-@import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300&display=swap");
 body {
-    box-sizing: border-box;
-    width: 100%;
-    min-height: 100vh;
-    margin: 0;
-    font-family: 'Merriweather Sans', sans-serif;
-    background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url("assets/patchy-bg.png") no-repeat;
-    background-position: center;
-    background-size: cover;
-    color: #fff;
-    position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  font-family: "Merriweather Sans", sans-serif;
+  background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)),
+    url("assets/patchy-bg.png") no-repeat;
+  background-position: center;
+  background-size: cover;
+  color: #fff;
+  position: relative;
 }
 
 .disable-scroll {
-    overflow: hidden;
+  overflow: hidden;
 }
 
 .page-content {
-    padding: 0 8vw;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+  padding: 0 8vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .header {
-    text-align: center;
-    padding-top: 2.5vh;
+  text-align: center;
+  padding-top: 2.5vh;
 }
 
 .book-count {
-    display: flex;
-    justify-content: space-around;
+  display: flex;
+  justify-content: space-around;
 }
 
 .book-grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 24px;
-    padding: 20px 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  padding: 20px 0;
 }
 
 .book-card {
-    --border-color: #b1b0b1;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    border: 2.5px solid var(--border-color);
-    border-radius: 8px;
-    background-color: #2b1934;
-    gap: 16px;
-    padding: 20px;
+  --border-color: #b1b0b1;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  border: 2.5px solid var(--border-color);
+  border-radius: 8px;
+  background-color: #2b1934;
+  gap: 16px;
+  padding: 20px;
 }
 
 #library-btn,
 .book-card-btn,
 .confirm-btn {
-    padding: 5px;
-    border-radius: 8px;
-    color: inherit;
-    background-color: inherit;
-    font-family: inherit;
+  padding: 5px;
+  border-radius: 8px;
+  color: inherit;
+  background-color: inherit;
+  font-family: inherit;
 }
 
 #library-btn,
 .confirm-btn {
-    border: 1px solid #fff;
-    font-size: 22px;
+  border: 1px solid #fff;
+  font-size: 22px;
 }
 
 .book-card-btn {
-    border: 2px solid var(--border-color);
-    font-size: inherit;
+  border: 2px solid var(--border-color);
+  font-size: inherit;
 }
 
 .book-title {
-    font-size: 20px;
+  font-size: 20px;
 }
 
 .modal-box {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    min-height: 100vh;
-    position: fixed;
-    background-color: rgba(0, 0, 0, 0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.55);
 }
 
 .hide {
-    display: none;
+  display: none;
 }
 
 .modal-content {
-    background-color: #000;
-    border: 2px solid #fff;
-    border-radius: 4px;
-    max-height: 90vh;
-    max-width: 90vw;
-    overflow-y: auto;
+  background-color: #000;
+  border: 2px solid #fff;
+  border-radius: 4px;
+  max-height: 90vh;
+  max-width: 90vw;
+  overflow-y: auto;
 }
 
 .close-modal {
-    font-weight: bold;
-    font-size: 28px;
-    border: none;
-    color: inherit;
-    background-color: inherit;
-    cursor: pointer;
+  font-weight: bold;
+  font-size: 28px;
+  border: none;
+  color: inherit;
+  background-color: inherit;
+  cursor: pointer;
 }
 
-.book-form>fieldset {
-    display: grid;
-    gap: 24px;
-    font-size: 20px;
-    border: none;
-    padding: 25px;
+.book-form > fieldset {
+  display: grid;
+  gap: 24px;
+  font-size: 20px;
+  border: none;
+  padding: 25px;
 }
 
 .form-legend {
-    font-size: 28px;
+  font-size: 28px;
 }
 
 form input {
-    background-color: inherit;
-    color: inherit;
-    border-radius: 4px;
-    font-size: 18px;
-    font-family: inherit;
-    border: 1.5px solid #fff;
+  background-color: inherit;
+  color: inherit;
+  border-radius: 4px;
+  font-size: 18px;
+  font-family: inherit;
+  border: 1.5px solid #fff;
 }
 
 .form-grid-item {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
-.form-grid-item>input:focus:invalid {
-    outline: #ff1515 solid 1px;
+.form-grid-item > input:focus:invalid {
+  outline: #ff1515 solid 1px;
 }
 
-.form-grid-item>input:focus:valid {
-    outline: #5eff00 solid 1px;
+.form-grid-item > input:focus:valid {
+  outline: #5eff00 solid 1px;
 }
 
 .radio-btn {
-    display: grid;
-    grid-template-columns: repeat(2, max-content);
-    padding-left: 8px;
-    gap: 6px 0;
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  padding-left: 8px;
+  gap: 6px 0;
 }
 
 svg,
 button,
 input[type="submit"] {
-    transition: 0.4s;
+  transition: 0.4s;
 }
 
 #library-btn:hover,
 input[type="submit"]:hover,
 button:hover {
-    box-shadow: rgba(255, 255, 255, 0.16) 0px 1px 4px, rgb(255, 255, 255) 0px 0px 0px 3px;
+  box-shadow: rgba(255, 255, 255, 0.16) 0px 1px 4px,
+    rgb(255, 255, 255) 0px 0px 0px 3px;
 }
 
 .del-btn-ui {
-    text-align: center;
-    padding: 20px;
-    font-size: 20px;
+  text-align: center;
+  padding: 20px;
+  font-size: 20px;
 }
 
 .confirm-btn {
-    margin: 0 7px;
+  margin: 0 7px;
 }
 
 svg:hover {
-    transform: rotate(360deg);
+  transform: rotate(360deg);
 }
 
 .footer,
 .book-container {
-    text-align: center;
+  text-align: center;
 }
 
 .footer {
-    margin-top: auto;
-    padding-bottom: 2.5vh;
+  margin-top: auto;
+  padding-bottom: 2.5vh;
 }
 
 .footer-link {
-    color: #fff;
+  color: #fff;
 }
 
-.footer-link>svg {
-    vertical-align: bottom;
+.footer-link > svg {
+  vertical-align: bottom;
 }
 
 .validation-text {
-    font-size: 12px;
-    color: #ff7575;
-    font-style: italic;
+  font-size: 12px;
+  color: #ff7575;
+  font-style: italic;
 }
 
 @media (max-width: 500px) {
-    body {
-        background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url("assets/patchy-bg-mobile.png") no-repeat;
-    }
+  body {
+    background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)),
+      url("assets/patchy-bg-mobile.png") no-repeat;
+  }
+
+  .page-content {
+    max-height: 100vh;
+    overflow-y: scroll;
+  }
 }
