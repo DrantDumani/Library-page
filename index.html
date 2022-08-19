@@ -1,97 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Library History</title>
-    <link rel="icon" href="assets/patchyIcon.png">
-    <link rel="stylesheet" href="style.css">
-</head>
+    <link rel="icon" href="assets/patchyIcon.png" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<body>
+  <body>
     <div class="modal-box hide" id="form-modal">
-        <div class="modal-content">
-            <button class="close-modal">X</button>
-            <form action="#" method="post" class="book-form">
-                <fieldset>
-                    <legend class="form-legend">Add New / Edit Book</legend>
-                    <div class="form-grid-item">
-                        <label for="title-input">Title</label>
-                        <input type="text" id="title-input" placeholder="Title" name="title" required>
-                        <span class="validation-text hide">*Please fill in this field</span>
-                    </div>
-                    <div class="form-grid-item">
-                        <label for="author-input">Author</label>
-                        <input type="text" id="author-input" placeholder="Author" name="author" required>
-                        <span class="validation-text hide">*Please fill in this field</span>
-                    </div>
-                    <div class="form-grid-item">
-                        <label for="page-number">Pages</label>
-                        <input type="number" id="page-number" placeholder="100" min="1" max="9999999" name="pages" required>
-                        <span class="validation-text hide">*Please enter a value less than 9999999</span>
-                    </div>
-                    <div class="form-grid-item">
-                        <span>Have you read this?</span>
-                        <div class="radio-container">
-                            <div class="radio-btn">
-                                <label for="yes-state">Read</label>
-                                <input type="radio" name="read-state" id="yes-state" value="Read">
-                                <label for="no-state">Not Read</label>
-                                <input type="radio" name="read-state" id="no-state" value="Not Read" checked>
-                            </div>
-                        </div>
-                    </div>
-                    <input type="submit" value="Add Book">
-                </fieldset>
-            </form>
-        </div>
+      <div class="modal-content">
+        <button class="close-modal">X</button>
+        <form action="#" method="post" class="book-form">
+          <fieldset>
+            <legend class="form-legend">Add New / Edit Book</legend>
+            <div class="form-grid-item">
+              <label for="title-input">Title</label>
+              <input
+                type="text"
+                id="title-input"
+                placeholder="Title"
+                name="title"
+                required
+              />
+              <span class="validation-text hide"
+                >*Please fill in this field</span
+              >
+            </div>
+            <div class="form-grid-item">
+              <label for="author-input">Author</label>
+              <input
+                type="text"
+                id="author-input"
+                placeholder="Author"
+                name="author"
+                required
+              />
+              <span class="validation-text hide"
+                >*Please fill in this field</span
+              >
+            </div>
+            <div class="form-grid-item">
+              <label for="page-number">Pages</label>
+              <input
+                type="number"
+                id="page-number"
+                placeholder="100"
+                min="1"
+                max="9999999"
+                name="pages"
+                required
+              />
+              <span class="validation-text hide"
+                >*Please enter a value less than 9999999</span
+              >
+            </div>
+            <div class="form-grid-item">
+              <span>Have you read this?</span>
+              <div class="radio-container">
+                <div class="radio-btn">
+                  <label for="yes-state">Read</label>
+                  <input
+                    type="radio"
+                    name="read-state"
+                    id="yes-state"
+                    value="Read"
+                  />
+                  <label for="no-state">Not Read</label>
+                  <input
+                    type="radio"
+                    name="read-state"
+                    id="no-state"
+                    value="Not Read"
+                    checked
+                  />
+                </div>
+              </div>
+            </div>
+            <input type="submit" value="Add Book" />
+          </fieldset>
+        </form>
+      </div>
     </div>
     <div class="modal-box hide" id="confirm-del-modal">
-        <div class="modal-content">
-            <button class="close-modal">X</button>
-            <div class="del-btn-ui">
-                <p class="confirm-text">Are you sure you want to delete this book?</p>
-                <button class="confirm-btn" value="true">Yes</button>
-                <button class="confirm-btn" value="false">No</button>
-            </div>
+      <div class="modal-content">
+        <button class="close-modal">X</button>
+        <div class="del-btn-ui">
+          <p class="confirm-text">Are you sure you want to delete this book?</p>
+          <button class="confirm-btn" value="true">Yes</button>
+          <button class="confirm-btn" value="false">No</button>
         </div>
+      </div>
     </div>
     <div class="page-content">
-        <header class="header">
-            <h1>My Library History</h1>
-            <div class="book-count">
-                <p>Total Books: <span id="bookNum">0</span></p>
-                <p>Total Read: <span id="readNum">0</span></p>
-            </div>
-            <div class="user-interface">
-                <button id="library-btn">Add New Book</button>
-            </div>
-        </header>
-        <main class="book-container">
-            <h2 class="empty-library-text hide">You currently have no books in your library! Add some and start reading!</h2>
-            <div class="book-grid-container">
-                <!-- <div class="book-card" data-index="0">
-                    <span class="book-title">"Animorphs: The Return"</span>
-                    <span>Author: <span class="author-name">K. A. Applegate</span></span>
-                    <span>Pages: <span class="page-number">212</span></span>
-                    <button class="read-btn book-card-btn">Read Status: Complete</button>
-                    <button class="delete-book-btn book-card-btn">Delete</button>
-                </div> -->
-            </div>
-        </main>
-        <footer class="footer">
-            <p>2022. Made by Darnell.
-                <a class="footer-link" href="https://github.com/DrantDumani/Library-page" target="_blank">
-                    <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M12,2A10,10 0 0,0 2,12C2,16.42 4.87,20.17 8.84,21.5C9.34,21.58 9.5,21.27 9.5,21C9.5,20.77 9.5,20.14 9.5,19.31C6.73,19.91 6.14,17.97 6.14,17.97C5.68,16.81 5.03,16.5 5.03,16.5C4.12,15.88 5.1,15.9 5.1,15.9C6.1,15.97 6.63,16.93 6.63,16.93C7.5,18.45 8.97,18 9.54,17.76C9.63,17.11 9.89,16.67 10.17,16.42C7.95,16.17 5.62,15.31 5.62,11.5C5.62,10.39 6,9.5 6.65,8.79C6.55,8.54 6.2,7.5 6.75,6.15C6.75,6.15 7.59,5.88 9.5,7.17C10.29,6.95 11.15,6.84 12,6.84C12.85,6.84 13.71,6.95 14.5,7.17C16.41,5.88 17.25,6.15 17.25,6.15C17.8,7.5 17.45,8.54 17.35,8.79C18,9.5 18.38,10.39 18.38,11.5C18.38,15.32 16.04,16.16 13.81,16.41C14.17,16.72 14.5,17.33 14.5,18.26C14.5,19.6 14.5,20.68 14.5,21C14.5,21.27 14.66,21.59 15.17,21.5C19.14,20.16 22,16.42 22,12A10,10 0 0,0 12,2Z" />
-                </svg>
-                </a>
-            </p>
-        </footer>
-        <script src="script.js"></script>
+      <header class="header">
+        <h1>My Library History</h1>
+        <div class="book-count">
+          <p>Total Books: <span id="bookNum">0</span></p>
+          <p>Total Read: <span id="readNum">0</span></p>
+        </div>
+        <div class="user-interface">
+          <button id="library-btn">Add New Book</button>
+        </div>
+      </header>
+      <main class="book-container">
+        <h2 class="empty-library-text hide">
+          You currently have no books in your library! Add some and start
+          reading!
+        </h2>
+        <div class="book-grid-container"></div>
+      </main>
+      <footer class="footer">
+        <p>
+          2022. Made by Darnell.
+          <a
+            class="footer-link"
+            href="https://github.com/DrantDumani/Library-page"
+            target="_blank"
+          >
+            <svg style="width: 24px; height: 24px" viewBox="0 0 24 24">
+              <path
+                fill="currentColor"
+                d="M12,2A10,10 0 0,0 2,12C2,16.42 4.87,20.17 8.84,21.5C9.34,21.58 9.5,21.27 9.5,21C9.5,20.77 9.5,20.14 9.5,19.31C6.73,19.91 6.14,17.97 6.14,17.97C5.68,16.81 5.03,16.5 5.03,16.5C4.12,15.88 5.1,15.9 5.1,15.9C6.1,15.97 6.63,16.93 6.63,16.93C7.5,18.45 8.97,18 9.54,17.76C9.63,17.11 9.89,16.67 10.17,16.42C7.95,16.17 5.62,15.31 5.62,11.5C5.62,10.39 6,9.5 6.65,8.79C6.55,8.54 6.2,7.5 6.75,6.15C6.75,6.15 7.59,5.88 9.5,7.17C10.29,6.95 11.15,6.84 12,6.84C12.85,6.84 13.71,6.95 14.5,7.17C16.41,5.88 17.25,6.15 17.25,6.15C17.8,7.5 17.45,8.54 17.35,8.79C18,9.5 18.38,10.39 18.38,11.5C18.38,15.32 16.04,16.16 13.81,16.41C14.17,16.72 14.5,17.33 14.5,18.26C14.5,19.6 14.5,20.68 14.5,21C14.5,21.27 14.66,21.59 15.17,21.5C19.14,20.16 22,16.42 22,12A10,10 0 0,0 12,2Z"
+              />
+            </svg>
+          </a>
+        </p>
+      </footer>
+      <script src="script.js"></script>
     </div>
-</body>
-
+  </body>
 </html>
