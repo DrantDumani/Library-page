@@ -29,6 +29,21 @@ body {
   padding-top: 2.5vh;
 }
 
+.title-btn-flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+.flex-btn {
+  align-self: center;
+}
+
+.show-logged-in {
+  display: flex;
+  align-items: center;
+  gap: 2vw;
+}
+
 .book-count {
   display: flex;
   justify-content: space-around;
@@ -55,7 +70,8 @@ body {
 
 #library-btn,
 .book-card-btn,
-.confirm-btn {
+.confirm-btn,
+.flex-btn {
   padding: 5px;
   border-radius: 8px;
   color: inherit;
@@ -64,9 +80,15 @@ body {
 }
 
 #library-btn,
-.confirm-btn {
+.confirm-btn,
+.flex-btn {
   border: 1px solid #fff;
   font-size: 22px;
+}
+
+#login-btn,
+#logout-btn {
+  font-size: 16px;
 }
 
 .book-card-btn {
