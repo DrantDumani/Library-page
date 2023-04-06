@@ -22,27 +22,40 @@ function showUsername(string) {
 let logoutBtn = document.querySelector("#logout-btn");
 logoutBtn.addEventListener("click", logout);
 
-function logout() {
-  firebase
-    .auth()
-    .signOut()
-    .then(() => {
-      toggleUIDisplay();
-    });
+// function logout() {
+//   firebase
+//     .auth()
+//     .signOut()
+//     .then(() => {
+//       toggleUIDisplay();
+//     });
+// }
+
+async function logout() {
+  await firebase.auth().signOut();
+  toggleUIDisplay();
 }
 
-//replace with actual authentication once enabled
-function login() {
-  // alert("This is supposed to log the user in.");
+// //replace with actual authentication once enabled
+// function login() {
+//   // alert("This is supposed to log the user in.");
+//   const provider = new firebase.auth.GoogleAuthProvider();
+//   firebase
+//     .auth()
+//     .signInWithPopup(provider)
+//     .then((result) => {
+//       const user = result.user;
+//       showUsername(user.displayName);
+//       toggleUIDisplay();
+//     });
+// }
+
+async function login() {
   const provider = new firebase.auth.GoogleAuthProvider();
-  firebase
-    .auth()
-    .signInWithPopup(provider)
-    .then((result) => {
-      const user = result.user;
-      showUsername(user.displayName);
-      toggleUIDisplay();
-    });
+  const result = await firebase.auth().signInWithPopup(provider);
+  const user = result.user;
+  showUsername(user.displayName);
+  toggleUIDisplay();
 }
 
 function updateStorage(keyStr, value) {
