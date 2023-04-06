@@ -9,10 +9,10 @@ loginBtn.addEventListener("click", login);
 
 const hiddenWhenLoggedOut = document.querySelector(".show-logged-in");
 
-function toggleUIDisplay() {
-  loginBtn.classList.toggle("hide");
-  hiddenWhenLoggedOut.classList.toggle("hide");
-}
+// function toggleUIDisplay() {
+//   loginBtn.classList.toggle("hide");
+//   hiddenWhenLoggedOut.classList.toggle("hide");
+// }
 
 function showUsername(string) {
   const nameSpan = document.querySelector("#user-name");
@@ -22,40 +22,32 @@ function showUsername(string) {
 let logoutBtn = document.querySelector("#logout-btn");
 logoutBtn.addEventListener("click", logout);
 
-// function logout() {
-//   firebase
-//     .auth()
-//     .signOut()
-//     .then(() => {
-//       toggleUIDisplay();
-//     });
-// }
+function initFirebaseAuth() {
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      loginBtn.classList.add("hide");
+      showUsername(user.displayName);
+      hiddenWhenLoggedOut.classList.remove("hide");
+    } else {
+      loginBtn.classList.remove("hide");
+      hiddenWhenLoggedOut.classList.add("hide");
+      const nameSpan = document.querySelector("#user-name");
+      nameSpan.innerText = "";
+    }
+  });
+}
 
 async function logout() {
   await firebase.auth().signOut();
-  toggleUIDisplay();
+  // toggleUIDisplay();
 }
-
-// //replace with actual authentication once enabled
-// function login() {
-//   // alert("This is supposed to log the user in.");
-//   const provider = new firebase.auth.GoogleAuthProvider();
-//   firebase
-//     .auth()
-//     .signInWithPopup(provider)
-//     .then((result) => {
-//       const user = result.user;
-//       showUsername(user.displayName);
-//       toggleUIDisplay();
-//     });
-// }
 
 async function login() {
   const provider = new firebase.auth.GoogleAuthProvider();
-  const result = await firebase.auth().signInWithPopup(provider);
-  const user = result.user;
-  showUsername(user.displayName);
-  toggleUIDisplay();
+  await firebase.auth().signInWithPopup(provider);
+  // const user = result.user;
+  // showUsername(user.displayName);
+  // toggleUIDisplay();
 }
 
 function updateStorage(keyStr, value) {
@@ -326,3 +318,5 @@ for (let el of inputs) {
 }
 
 toggleEmptyNotif();
+initFirebaseAuth();
+// console.log(firebaseConfig);
