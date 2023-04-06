@@ -7,6 +7,30 @@ let formModal = document.querySelector("#form-modal");
 let loginBtn = document.querySelector("#login-btn");
 loginBtn.addEventListener("click", login);
 
+const hiddenWhenLoggedOut = document.querySelector(".show-logged-in");
+
+function toggleUIDisplay() {
+  loginBtn.classList.toggle("hide");
+  hiddenWhenLoggedOut.classList.toggle("hide");
+}
+
+function showUsername(string) {
+  const nameSpan = document.querySelector("#user-name");
+  nameSpan.innerText = string;
+}
+
+let logoutBtn = document.querySelector("#logout-btn");
+logoutBtn.addEventListener("click", logout);
+
+function logout() {
+  firebase
+    .auth()
+    .signOut()
+    .then(() => {
+      toggleUIDisplay();
+    });
+}
+
 //replace with actual authentication once enabled
 function login() {
   // alert("This is supposed to log the user in.");
@@ -16,7 +40,8 @@ function login() {
     .signInWithPopup(provider)
     .then((result) => {
       const user = result.user;
-      console.log(user.displayName);
+      showUsername(user.displayName);
+      toggleUIDisplay();
     });
 }
 

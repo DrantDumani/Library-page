@@ -38,6 +38,12 @@ body {
   align-self: center;
 }
 
+.show-logged-in {
+  display: flex;
+  align-items: center;
+  gap: 2vw;
+}
+
 .book-count {
   display: flex;
   justify-content: space-around;
@@ -78,6 +84,11 @@ body {
 .flex-btn {
   border: 1px solid #fff;
   font-size: 22px;
+}
+
+#login-btn,
+#logout-btn {
+  font-size: 16px;
 }
 
 .book-card-btn {
