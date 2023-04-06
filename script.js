@@ -6,9 +6,18 @@ let formModal = document.querySelector("#form-modal");
 
 let loginBtn = document.querySelector("#login-btn");
 loginBtn.addEventListener("click", login);
+
 //replace with actual authentication once enabled
 function login() {
-  alert("This is supposed to log the user in.");
+  // alert("This is supposed to log the user in.");
+  const provider = new firebase.auth.GoogleAuthProvider();
+  firebase
+    .auth()
+    .signInWithPopup(provider)
+    .then((result) => {
+      const user = result.user;
+      console.log(user.displayName);
+    });
 }
 
 function updateStorage(keyStr, value) {
