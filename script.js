@@ -41,27 +41,20 @@ function initFirebaseAuth() {
   });
 }
 
-function setUnsubscribe(uid) {
-  unsubscribe = database
-    .collection("books")
-    .doc(uid)
-    .onSnapshot((doc) => {
-      const { tempStorage } = doc.data();
-      renderBooks(tempStorage);
-    });
+function setUnsubscribe(ref) {
+  unsubscribe = ref.onSnapshot((doc) => {
+    const { tempStorage } = doc.data();
+    renderBooks(tempStorage);
+  });
 }
 
 async function getBooksFromDatabase(userUID) {
   const docRef = database.collection("books").doc(userUID);
   const doc = await docRef.get();
-  if (doc.exists) {
-    const { tempStorage } = doc.data();
-    if (tempStorage) {
-      renderBooks(tempStorage);
-    }
-  } else {
-    console.log(doc, "Tires don exits");
+  if (!doc.exists) {
+    docRef.set({ tempStorage: [] });
   }
+  setUnsubscribe(docRef);
 }
 
 async function logout() {
@@ -300,7 +293,7 @@ async function handleFirestore(bookObj, operationFn) {
   }
   operationFn(tempStorage, bookObj);
   updateFireStore({ tempStorage });
-  getBooksFromDatabase(userId);
+  // getBooksFromDatabase(userId);
 }
 
 function updateFireStore(arr) {
