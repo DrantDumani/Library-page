@@ -4,7 +4,8 @@ let currentBook = null;
 let bookContainer = document.querySelector(".book-grid-container");
 let formModal = document.querySelector("#form-modal");
 let userId = "";
-let database = firebase.firestore() || null;
+let database = firebase.firestore();
+let unsubscribe = () => {};
 
 let loginBtn = document.querySelector("#login-btn");
 loginBtn.addEventListener("click", login);
@@ -19,13 +20,6 @@ function showUsername(string) {
 let logoutBtn = document.querySelector("#logout-btn");
 logoutBtn.addEventListener("click", logout);
 
-function setUserRef(user) {
-  const userCollectionRef = database.collection("users");
-  const docId = user.uid;
-  const docData = { name: user.displayName };
-  userCollectionRef.doc(docId).set(docData);
-}
-
 function initFirebaseAuth() {
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
@@ -33,6 +27,7 @@ function initFirebaseAuth() {
       showUsername(user.displayName);
       hiddenWhenLoggedOut.classList.remove("hide");
       userId = user.uid;
+      // setUnsubscribe(user.uid);
       getBooksFromDatabase(userId);
     } else {
       loginBtn.classList.remove("hide");
@@ -41,8 +36,19 @@ function initFirebaseAuth() {
       nameSpan.innerText = "";
       userId = "";
       booksFromStorage();
+      unsubscribe();
     }
   });
+}
+
+function setUnsubscribe(uid) {
+  unsubscribe = database
+    .collection("books")
+    .doc(uid)
+    .onSnapshot((doc) => {
+      const { tempStorage } = doc.data();
+      renderBooks(tempStorage);
+    });
 }
 
 async function getBooksFromDatabase(userUID) {
@@ -292,7 +298,6 @@ async function handleFirestore(bookObj, operationFn) {
   if (!tempStorage) {
     tempStorage = [];
   }
-  console.log(tempStorage);
   operationFn(tempStorage, bookObj);
   updateFireStore({ tempStorage });
   getBooksFromDatabase(userId);
