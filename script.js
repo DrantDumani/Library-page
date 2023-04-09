@@ -1,18 +1,15 @@
 const library = [];
 const localStorage = window.localStorage;
-let currentBookIndex = null;
+let currentBook = null;
 let bookContainer = document.querySelector(".book-grid-container");
 let formModal = document.querySelector("#form-modal");
+let userId = "";
+let database = firebase.firestore() || null;
 
 let loginBtn = document.querySelector("#login-btn");
 loginBtn.addEventListener("click", login);
 
 const hiddenWhenLoggedOut = document.querySelector(".show-logged-in");
-
-// function toggleUIDisplay() {
-//   loginBtn.classList.toggle("hide");
-//   hiddenWhenLoggedOut.classList.toggle("hide");
-// }
 
 function showUsername(string) {
   const nameSpan = document.querySelector("#user-name");
@@ -22,32 +19,52 @@ function showUsername(string) {
 let logoutBtn = document.querySelector("#logout-btn");
 logoutBtn.addEventListener("click", logout);
 
+function setUserRef(user) {
+  const userCollectionRef = database.collection("users");
+  const docId = user.uid;
+  const docData = { name: user.displayName };
+  userCollectionRef.doc(docId).set(docData);
+}
+
 function initFirebaseAuth() {
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       loginBtn.classList.add("hide");
       showUsername(user.displayName);
       hiddenWhenLoggedOut.classList.remove("hide");
+      userId = user.uid;
+      getBooksFromDatabase(userId);
     } else {
       loginBtn.classList.remove("hide");
       hiddenWhenLoggedOut.classList.add("hide");
       const nameSpan = document.querySelector("#user-name");
       nameSpan.innerText = "";
+      userId = "";
+      booksFromStorage();
     }
   });
 }
 
+async function getBooksFromDatabase(userUID) {
+  const docRef = database.collection("books").doc(userUID);
+  const doc = await docRef.get();
+  if (doc.exists) {
+    const { tempStorage } = doc.data();
+    if (tempStorage) {
+      renderBooks(tempStorage);
+    }
+  } else {
+    console.log(doc, "Tires don exits");
+  }
+}
+
 async function logout() {
   await firebase.auth().signOut();
-  // toggleUIDisplay();
 }
 
 async function login() {
   const provider = new firebase.auth.GoogleAuthProvider();
   await firebase.auth().signInWithPopup(provider);
-  // const user = result.user;
-  // showUsername(user.displayName);
-  // toggleUIDisplay();
 }
 
 function updateStorage(keyStr, value) {
@@ -61,20 +78,25 @@ function getStorage(keyStr) {
 }
 
 function populateLibrary(arr) {
+  library.length = 0;
   arr.forEach((book) => {
     let bookWithMethod = Object.assign(Object.create(bookMethods), book);
     library.push(bookWithMethod);
   });
 }
 
-window.addEventListener("load", () => {
+function booksFromStorage() {
   const storedBooks = getStorage("library");
   if (storedBooks) {
-    populateLibrary(storedBooks);
-    displayBooks();
-    toggleEmptyNotif();
+    renderBooks(storedBooks);
   }
-});
+}
+
+function renderBooks(arr) {
+  populateLibrary(arr);
+  displayBooks();
+  toggleEmptyNotif();
+}
 
 let librarybtn = document.querySelector("#library-btn");
 librarybtn.addEventListener("click", () => {
@@ -99,8 +121,7 @@ for (let btn of confirmDelBtns) {
 function confirmDelete(event) {
   let parentModal = document.querySelector("#confirm-del-modal");
   if (event.target.value === "true") {
-    removeFromLibrary(currentBookIndex);
-    updateStorage("library", library);
+    removeFromLibrary();
   }
   toggleModal(parentModal);
 }
@@ -125,7 +146,6 @@ function submitForm(e) {
   let [title, author, pages, read] = Object.values(Object.fromEntries(data));
   read = read === "Read" ? true : false;
   editOrAddToLibrary(title, author, pages, read);
-  updateStorage("library", library);
   toggleModal(formModal);
 }
 
@@ -172,10 +192,21 @@ function appendBook(book) {
   );
   readStatus.addEventListener("click", () => {
     book.toggleRead();
+    const tempBook = {
+      title: book.title,
+      author: book.author,
+      pages: book.pages,
+      read: book.read,
+      bookIndex: book.bookIndex,
+    };
     readStatus.textContent = book.read
       ? "Read Status: Read"
       : "Read Status: Not Read";
-    updateStorage("library", library);
+    if (userId) {
+      handleFirestore(tempBook, editOrAddBook);
+    } else {
+      handleLocalStorage(tempBook, editOrAddBook);
+    }
   });
 
   let editBtn = document.createElement("button");
@@ -190,7 +221,7 @@ function appendBook(book) {
   deleteBtn.appendChild(document.createTextNode("Delete"));
   deleteBtn.addEventListener("click", () => {
     let delModal = document.querySelector("#confirm-del-modal");
-    currentBookIndex = bookIndex;
+    currentBook = book;
     toggleModal(delModal);
   });
 
@@ -219,7 +250,6 @@ function displayBooks() {
 const bookMethods = {
   toggleRead() {
     this.read = !this.read;
-    displayBooks();
   },
 };
 
@@ -243,34 +273,68 @@ function editBook(book) {
     document.querySelector("#no-state").checked = true;
   }
   bookForm.dataset.index = bookIndex;
-  updateStorage("library", library);
+}
+
+function handleLocalStorage(bookObj, operationFn) {
+  const tempStorage = getStorage("library") || [];
+  operationFn(tempStorage, bookObj);
+  updateStorage("library", tempStorage);
+  booksFromStorage();
+}
+
+async function handleFirestore(bookObj, operationFn) {
+  let tempStorage = null;
+  const docRef = database.collection("books").doc(userId);
+  const doc = await docRef.get();
+  if (doc.exists) {
+    tempStorage = doc.data().tempStorage;
+  }
+  if (!tempStorage) {
+    tempStorage = [];
+  }
+  console.log(tempStorage);
+  operationFn(tempStorage, bookObj);
+  updateFireStore({ tempStorage });
+  getBooksFromDatabase(userId);
+}
+
+function updateFireStore(arr) {
+  database.collection("books").doc(userId).set(arr);
+}
+
+function editOrAddBook(arr, book) {
+  const { bookIndex } = book;
+  arr[bookIndex] = book;
 }
 
 function editOrAddToLibrary(title, author, pages, read) {
   let bookIndex = bookForm.dataset.index || library.length;
-  let book = Object.assign(Object.create(bookMethods), {
-    title,
-    author,
-    pages,
-    read,
-    bookIndex,
-  });
-  library[bookIndex] = book;
+  let book = { title, author, pages, read, bookIndex };
+  if (!userId) {
+    handleLocalStorage(book, editOrAddBook);
+  } else {
+    handleFirestore(book, editOrAddBook);
+  }
+
   bookForm.dataset.index = "";
 
   displayBooks();
   toggleEmptyNotif();
 }
 
-function removeFromLibrary(index) {
-  for (let i = Number(index); i < library.length; i += 1) {
-    library[i].bookIndex -= 1;
+function deleteBook(arr, bookObj) {
+  const index = bookObj.bookIndex;
+  for (let i = Number(index); i < arr.length; i += 1) {
+    arr[i].bookIndex -= 1;
   }
-  library.splice(index, 1);
-  currentBookIndex = null;
-  displayBooks();
-  toggleEmptyNotif();
-  updateStorage("library", library);
+  arr.splice(index, 1);
+}
+
+function removeFromLibrary() {
+  if (!userId) {
+    handleLocalStorage(currentBook, deleteBook);
+  }
+  currentBook = null;
 }
 
 function capitalizeFirstLetter(string) {
@@ -319,4 +383,3 @@ for (let el of inputs) {
 
 toggleEmptyNotif();
 initFirebaseAuth();
-// console.log(firebaseConfig);
