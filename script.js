@@ -4,7 +4,8 @@ let currentBook = null;
 let bookContainer = document.querySelector(".book-grid-container");
 let formModal = document.querySelector("#form-modal");
 let userId = "";
-let database = firebase.firestore() || null;
+let database = firebase.firestore();
+let unsubscribe = () => {};
 
 let loginBtn = document.querySelector("#login-btn");
 loginBtn.addEventListener("click", login);
@@ -18,13 +19,6 @@ function showUsername(string) {
 
 let logoutBtn = document.querySelector("#logout-btn");
 logoutBtn.addEventListener("click", logout);
-
-function setUserRef(user) {
-  const userCollectionRef = database.collection("users");
-  const docId = user.uid;
-  const docData = { name: user.displayName };
-  userCollectionRef.doc(docId).set(docData);
-}
 
 function initFirebaseAuth() {
   firebase.auth().onAuthStateChanged((user) => {
@@ -41,21 +35,25 @@ function initFirebaseAuth() {
       nameSpan.innerText = "";
       userId = "";
       booksFromStorage();
+      unsubscribe();
     }
+  });
+}
+
+function setUnsubscribe(ref) {
+  unsubscribe = ref.onSnapshot((doc) => {
+    const { tempStorage } = doc.data();
+    renderBooks(tempStorage);
   });
 }
 
 async function getBooksFromDatabase(userUID) {
   const docRef = database.collection("books").doc(userUID);
   const doc = await docRef.get();
-  if (doc.exists) {
-    const { tempStorage } = doc.data();
-    if (tempStorage) {
-      renderBooks(tempStorage);
-    }
-  } else {
-    console.log(doc, "Tires don exits");
+  if (!doc.exists) {
+    docRef.set({ tempStorage: [] });
   }
+  setUnsubscribe(docRef);
 }
 
 async function logout() {
@@ -292,10 +290,8 @@ async function handleFirestore(bookObj, operationFn) {
   if (!tempStorage) {
     tempStorage = [];
   }
-  console.log(tempStorage);
   operationFn(tempStorage, bookObj);
   updateFireStore({ tempStorage });
-  getBooksFromDatabase(userId);
 }
 
 function updateFireStore(arr) {
@@ -333,6 +329,8 @@ function deleteBook(arr, bookObj) {
 function removeFromLibrary() {
   if (!userId) {
     handleLocalStorage(currentBook, deleteBook);
+  } else {
+    handleFirestore(currentBook, deleteBook);
   }
   currentBook = null;
 }
