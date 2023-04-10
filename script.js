@@ -27,7 +27,6 @@ function initFirebaseAuth() {
       showUsername(user.displayName);
       hiddenWhenLoggedOut.classList.remove("hide");
       userId = user.uid;
-      // setUnsubscribe(user.uid);
       getBooksFromDatabase(userId);
     } else {
       loginBtn.classList.remove("hide");
@@ -293,7 +292,6 @@ async function handleFirestore(bookObj, operationFn) {
   }
   operationFn(tempStorage, bookObj);
   updateFireStore({ tempStorage });
-  // getBooksFromDatabase(userId);
 }
 
 function updateFireStore(arr) {
@@ -331,6 +329,8 @@ function deleteBook(arr, bookObj) {
 function removeFromLibrary() {
   if (!userId) {
     handleLocalStorage(currentBook, deleteBook);
+  } else {
+    handleFirestore(currentBook, deleteBook);
   }
   currentBook = null;
 }
